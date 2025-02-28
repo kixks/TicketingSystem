@@ -15,7 +15,7 @@
                 <button type="submit" class="btn btn-success w-100 mt-4">Login</button>
             </form>
             <div class="text-center mt-3">
-                <a href="#" class="text-decoration-none">Forgot password?</a>
+              <router-link to="/register" class="text-decoration-none">Dont have an account?</router-link>
             </div>
         </div>
     </div>
@@ -25,7 +25,7 @@
   
   <script>
   import axios from 'axios';
-  
+
   export default {
     data() {
       return {
@@ -48,6 +48,9 @@
           // Store token in localStorage
           localStorage.setItem("token", response.data.token);
           axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`;
+
+          alert("Login successful! Redirecting to the main page...");
+
   
           // Redirect to main page
           this.$router.push("/mainPage");
