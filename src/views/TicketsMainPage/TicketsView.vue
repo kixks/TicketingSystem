@@ -1,7 +1,10 @@
 <template>
     <div class="container mt-5">
-      <h2 class="text-center">My Tickets</h2>
+      <!-- Logout Button (Top Left) -->
+      <button class="btn btn-danger position-absolute top-0 start-0 m-3" @click="logout">Logout</button>
   
+      <h2 class="text-center">My Tickets</h2>
+      
       <!-- Create Ticket Button -->
       <button class="btn btn-primary mb-3" @click="showModal = true">Create Ticket</button>
   
@@ -91,9 +94,9 @@
   export default {
     data() {
       return {
-        userID: null, // Logged-in user's ID
-        tickets: [], // Fetched tickets
-        showModal: false, // Controls modal visibility
+        userID: null,
+        tickets: [],
+        showModal: false,
         newTicket: {
           user_id: null,
           plate_number: "",
@@ -115,7 +118,7 @@
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
           });
           this.userID = response.data.id;
-          this.newTicket.user_id = this.userID; // Pre-fill user_id in form
+          this.newTicket.user_id = this.userID;
           this.fetchTickets();
         } catch (error) {
           console.error("Error fetching user ID:", error);
@@ -137,9 +140,20 @@
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
           });
           this.showModal = false;
-          this.fetchTickets(); // Refresh ticket list
+          this.fetchTickets();
         } catch (error) {
           console.error("Error creating ticket:", error);
+        }
+      },
+      async logout() {
+        try {
+          await axios.post("http://127.0.0.1:8000/api/logout", {}, {
+            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+          });
+          localStorage.removeItem("token");
+          this.$router.push("/login");
+        } catch (error) {
+          console.error("Error logging out:", error);
         }
       },
       viewTicket(ticketID) {
@@ -160,7 +174,6 @@
   </script>
   
   <style>
-  /* Modal Styles */
   .modal-backdrop {
     position: fixed;
     top: 0;

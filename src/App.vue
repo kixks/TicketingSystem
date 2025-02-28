@@ -8,8 +8,6 @@ import HelloWorld from './components/HelloWorld.vue'
 
     <div class="wrapper">
       <nav>
-        <RouterLink to="/">Landing Page</RouterLink> <br>
-        <RouterLink to="/login">Login</RouterLink>
       </nav>
     </div>
   </header>
